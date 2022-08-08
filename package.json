@@ -28,6 +28,7 @@
   "dependencies": {
     "jquery": "^3.6.0",
     "save": "^2.5.0",
-    "slick-carousel": "^1.8.1"
+    "slick-carousel": "^1.8.1",
+    "ts-loader": "~8.2.0"
   }
 }
