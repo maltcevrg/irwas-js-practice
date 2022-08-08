@@ -14012,6 +14012,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _slider__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./slider */ "./src/ts/slider.js");
 /* harmony import */ var _modules_modals__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./modules/modals */ "./src/ts/modules/modals.ts");
 /* harmony import */ var _modules_tabs__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./modules/tabs */ "./src/ts/modules/tabs.ts");
+/* harmony import */ var _modules_forms__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./modules/forms */ "./src/ts/modules/forms.ts");
+
 
 
 
@@ -14019,7 +14021,80 @@ window.addEventListener('DOMContentLoaded', () => {
     Object(_modules_modals__WEBPACK_IMPORTED_MODULE_1__["default"])();
     Object(_modules_tabs__WEBPACK_IMPORTED_MODULE_2__["default"])(".glazing_slider", ".glazing_block", ".glazing_content", "active");
     Object(_modules_tabs__WEBPACK_IMPORTED_MODULE_2__["default"])(".decoration_slider", ".no_click", ".decoration_content > div > div", "after_click");
+    Object(_modules_forms__WEBPACK_IMPORTED_MODULE_3__["default"])();
 });
+
+
+/***/ }),
+
+/***/ "./src/ts/modules/forms.ts":
+/*!*********************************!*\
+  !*** ./src/ts/modules/forms.ts ***!
+  \*********************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+const forms = () => {
+    const form = document.querySelectorAll("form"), input = document.querySelectorAll("input"), phoneInput = document.querySelectorAll('input[name="user_phone"]');
+    // Валидация номера
+    phoneInput.forEach(item => {
+        item.addEventListener('input', () => {
+            item.value = item.value.replace(/\D/, '');
+            console.log(typeof item.value);
+        });
+    });
+    // Сообщения о действиях в форме
+    const message = {
+        loading: "Грузится",
+        success: "Спс, отправил",
+        fail: "Всё сломалось",
+    };
+    //Отправка данных
+    const postData = async (url, data) => {
+        document.querySelector(".status").textContent = message.loading;
+        let result = await fetch(url, {
+            method: "POST",
+            body: data,
+        });
+        return await result.text();
+    };
+    //   Очистка инпутов
+    const clear = () => {
+        input.forEach((item) => {
+            item.value = "";
+        });
+    };
+    // Вывод сообщения о действии посредством создания нового div
+    form.forEach((item) => {
+        item.addEventListener("submit", (e) => {
+            e.preventDefault();
+            let status = document.createElement("div");
+            status.classList.add("status");
+            item.appendChild(status);
+            //Сбор данных с формы
+            const formData = new FormData(item);
+            //Отправка данных на фейк сервер
+            postData("assets/server.php")
+                .then((res) => {
+                console.log(res);
+                status.textContent = message.loading;
+            })
+                .catch(() => {
+                status.textContent = message.fail;
+            })
+                .finally(() => {
+                clear();
+                status.textContent = message.success;
+                setTimeout(() => {
+                    status.remove();
+                }, 3000);
+            });
+        });
+    });
+};
+/* harmony default export */ __webpack_exports__["default"] = (forms);
 
 
 /***/ }),
