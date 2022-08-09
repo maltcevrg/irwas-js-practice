@@ -1,12 +1,13 @@
 export const modals = () => {
-  let modal = [
-    {
-      triggers: document.querySelectorAll(triggerSelector),
-      modal: document.querySelector(modal.modalSelector),
-      close: document.querySelector(modal.closeSelector),
-    },
-  ]
-  const bindModal = (modal) => {
+  // const modal = {
+  //   triggers: document.querySelectorAll(triggerSelector),
+  //   modal: document.querySelector(modalSelector),
+  //   close: document.querySelector(closeSelector),
+  // }
+  const bindModal = (triggerSelector, modalSelector, closeSelector) => {
+    const triggers = document.querySelectorAll(triggerSelector),
+      modal = document.querySelector(modalSelector),
+      close = document.querySelector(closeSelector)
     triggers.forEach((item) => {
       item.addEventListener("click", (e) => {
         if (e.target) {
@@ -16,16 +17,23 @@ export const modals = () => {
         document.body.style.overflow = "hidden"
       })
     })
-    const close = () => {
+    const closeModal = () => {
       modal.style.display = "none"
       document.body.style.overflow = ""
     }
     close.addEventListener("click", () => {
-      close()
+      closeModal()
     })
     modal.addEventListener("click", (e) => {
       if (e.target === modal) {
-        close()
+        closeModal()
+      }
+    })
+    document.addEventListener("keydown", (e) => {
+      let key = e.keyCode
+      console.log(key);
+      if (key === 27) {
+        closeModal()
       }
     })
   }
@@ -35,6 +43,7 @@ export const modals = () => {
       document.body.style.overflow = "hidden"
     }, time)
   }
+
   bindModal(
     ".popup_engineer_btn",
     ".popup_engineer",
@@ -42,5 +51,5 @@ export const modals = () => {
   )
 
   bindModal(".phone_link", ".popup", ".popup .popup_close")
-  showModalByTime(".popup", 6000)
+  // showModalByTime(".popup", 6000)
 }
