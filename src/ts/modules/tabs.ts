@@ -2,7 +2,8 @@ const tabs = (
   headerSelector: string,
   tabSelector: string,
   contentSelector: string,
-  activeClass: string
+  activeClass: string,
+  display: string = "block"
 ) => {
   const header = document.querySelector<HTMLElement>(headerSelector),
     tab = document.querySelectorAll<HTMLElement>(tabSelector),
@@ -18,7 +19,7 @@ const tabs = (
   }
 
   const showContent = (i: number = 0) => {
-    content[i].style.display = "block"
+    content[i].style.display = display
     tab[i].classList.add(activeClass)
   }
   hideContent()
