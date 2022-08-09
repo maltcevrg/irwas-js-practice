@@ -14109,9 +14109,9 @@ const forms = () => {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 const modals = () => {
-    function bindModal(triggerSelector, modalSelector, closeSelector) {
-        const trigger = document.querySelectorAll(triggerSelector), modal = document.querySelector(modalSelector), close = document.querySelector(closeSelector);
-        trigger.forEach((item) => {
+    const bindModal = (triggerSelector, modalSelector, closeSelector) => {
+        const triggers = document.querySelectorAll(triggerSelector), modal = document.querySelector(modalSelector), close = document.querySelector(closeSelector);
+        triggers.forEach((item) => {
             item.addEventListener("click", (e) => {
                 if (e.target) {
                     e.preventDefault;
@@ -14120,17 +14120,26 @@ const modals = () => {
                 document.body.style.overflow = "hidden";
             });
         });
-        close.addEventListener("click", () => {
+        const closeModal = () => {
             modal.style.display = "none";
             document.body.style.overflow = "";
+        };
+        close.addEventListener("click", () => {
+            closeModal();
         });
         modal.addEventListener("click", (e) => {
             if (e.target === modal) {
-                modal.style.display = "none";
-                document.body.style.overflow = "";
+                closeModal();
             }
         });
-    }
+        document.addEventListener("keydown", (e) => {
+            let key = e.keyCode;
+            console.log(key);
+            if (key === 27) {
+                closeModal();
+            }
+        });
+    };
     function showModalByTime(selector, time) {
         setTimeout(() => {
             document.querySelector(selector).style.display = "block";

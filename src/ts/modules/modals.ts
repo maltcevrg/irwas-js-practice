@@ -1,14 +1,13 @@
 const modals = () => {
-  function bindModal(
+  const bindModal = (
     triggerSelector: string,
     modalSelector: string,
     closeSelector: string
-  ) {
-    const trigger = document.querySelectorAll<HTMLElement>(triggerSelector),
-          modal = document.querySelector<HTMLElement>(modalSelector),
-          close = document.querySelector<HTMLElement>(closeSelector)
-
-    trigger.forEach((item) => {
+  ) => {
+    const triggers = document.querySelectorAll<HTMLElement>(triggerSelector),
+      modal = document.querySelector<HTMLElement>(modalSelector),
+      close = document.querySelector<HTMLElement>(closeSelector)
+      triggers.forEach((item) => {
       item.addEventListener("click", (e: Event) => {
         if (e.target) {
           e.preventDefault
@@ -17,15 +16,23 @@ const modals = () => {
         document.body.style.overflow = "hidden"
       })
     })
-
-    close.addEventListener("click", () => {
+    const closeModal = () => {
       modal.style.display = "none"
       document.body.style.overflow = ""
+    }
+    close.addEventListener("click", () => {
+      closeModal()
     })
     modal.addEventListener("click", (e: Event) => {
       if (e.target === modal) {
-        modal.style.display = "none"
-        document.body.style.overflow = ""
+        closeModal()
+      }
+    })
+    document.addEventListener("keydown", (e) => {
+      let key = e.keyCode
+      console.log(key);
+      if (key === 27) {
+        closeModal()
       }
     })
   }
