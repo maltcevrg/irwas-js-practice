@@ -1,4 +1,4 @@
-const modals = () => {
+export const modals = () => {
   const bindModal = (
     triggerSelector: string,
     modalSelector: string,
@@ -36,7 +36,6 @@ const modals = () => {
     })
     document.addEventListener("keydown", (e) => {
       let key = e.keyCode
-      console.log(key)
       if (key === 27) {
         closeModal()
       }
@@ -60,5 +59,3 @@ const modals = () => {
   bindModal(".popup_calc_profile_button", ".popup_calc_end", ".popup_calc_end_close", false)
   // showModalByTime('.popup',6000)
 }
-
-export default modals

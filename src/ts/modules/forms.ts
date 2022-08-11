@@ -1,14 +1,11 @@
-const forms = () => {
+import { checkNumInputs } from "./checkNumInputs"
+
+export const forms = (state?: any) => {
   const form = document.querySelectorAll<HTMLFormElement>("form"),
-        input = document.querySelectorAll<HTMLInputElement>("input"),
-        phoneInput = document.querySelectorAll<HTMLInputElement>('input[name="user_phone"]')
-    // Валидация номера
-    phoneInput.forEach(item =>{
-        item.addEventListener('input', () =>{
-            item.value = item.value.replace(/\D/,'')
-            console.log(typeof item.value);
-        })
-    })
+    input = document.querySelectorAll<HTMLInputElement>("input")
+
+  // Валидация номера
+  checkNumInputs('input[name="user_phone"]')
   // Сообщения о действиях в форме
   const message = {
     loading: "Грузится",
@@ -16,7 +13,7 @@ const forms = () => {
     fail: "Всё сломалось",
   }
   //Отправка данных
-  const postData = async (url?:string, data?:string) => {
+  const postData = async (url?: string, data?: string) => {
     document.querySelector(".status").textContent = message.loading
     let result = await fetch(url, {
       method: "POST",
@@ -41,6 +38,13 @@ const forms = () => {
 
       //Сбор данных с формы
       const formData = new FormData(item)
+      if (item.getAttribute("data-calc") === "end") {
+        for (let key in state) {
+          formData.append(key, state[key])
+          console.log(formData)
+          console.log(typeof state)
+        }
+      }
 
       //Отправка данных на фейк сервер
       postData("assets/server.php")
@@ -52,14 +56,12 @@ const forms = () => {
           status.textContent = message.fail
         })
         .finally(() => {
-            clear()
-            status.textContent = message.success
-            setTimeout(() =>{
-                status.remove()
-            },3000)
+          clear()
+          status.textContent = message.success
+          setTimeout(() => {
+            status.remove()
+          }, 3000)
         })
     })
   })
 }
-
-export default forms
