@@ -1,12 +1,12 @@
-const modals = () => {
+export const modals = () => {
   function bindModal(
     triggerSelector: string,
     modalSelector: string,
     closeSelector: string
   ) {
     const trigger = document.querySelectorAll<HTMLElement>(triggerSelector),
-          modal = document.querySelector<HTMLElement>(modalSelector),
-          close = document.querySelector<HTMLElement>(closeSelector)
+      modal = document.querySelector<HTMLElement>(modalSelector),
+      close = document.querySelector<HTMLElement>(closeSelector)
 
     trigger.forEach((item) => {
       item.addEventListener("click", (e: Event) => {
@@ -44,5 +44,3 @@ const modals = () => {
   bindModal(".phone_link", ".popup", ".popup .popup_close")
   // showModalByTime('.popup',6000)
 }
-
-export default modals
