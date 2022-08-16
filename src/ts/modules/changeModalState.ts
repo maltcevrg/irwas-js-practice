@@ -21,10 +21,9 @@ export const changeModalState = (state: any) => {
             break
           case "INPUT":
             if (element.getAttribute("type") === "checkbox") {
-              i === 0 ? (state[prop] = "Cold") : (state[prop] = "Hot")
+              state[prop] = i === 0 ? "Cold" : "Hot"
               element.forEach((box: any, j: number) => {
                 box.checked = false
-                console.log(typeof box)
                 if (i === j) {
                   box.checked = true
                 }

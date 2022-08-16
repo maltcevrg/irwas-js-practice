@@ -8,7 +8,8 @@ export const modals = () => {
     const triggers = document.querySelectorAll<HTMLElement>(triggerSelector),
       modal = document.querySelector<HTMLElement>(modalSelector),
       close = document.querySelector<HTMLElement>(closeSelector),
-      windows = document.querySelectorAll<HTMLElement>("[data-popup]")
+      windows = document.querySelectorAll<HTMLElement>("[data-popup]"),
+      scroll = calcScroll()
     triggers.forEach((trigger) => {
       trigger.addEventListener("click", (e: Event) => {
         if (e.target) {
@@ -16,6 +17,7 @@ export const modals = () => {
         }
         modal.style.display = "block"
         document.body.style.overflow = "hidden"
+        document.body.style.marginRight = String(scroll + "px")
       })
     })
 
@@ -23,6 +25,7 @@ export const modals = () => {
       windows.forEach((modal) => {
         modal.style.display = "none"
         document.body.style.overflow = ""
+        document.body.style.marginRight = "0px"
       })
       console.log("all popups close")
     }
@@ -35,17 +38,29 @@ export const modals = () => {
       }
     })
     document.addEventListener("keydown", (e) => {
-      let key = e.keyCode
-      if (key === 27) {
+      let key = e.key
+      if (key === "Escape") {
         closeModal()
       }
     })
   }
-  function showModalByTime(selector: string, time: number) {
+  const showModalByTime = (selector: string, time: number) => {
     setTimeout(() => {
       document.querySelector<HTMLElement>(selector).style.display = "block"
       document.body.style.overflow = "hidden"
     }, time)
+  }
+
+  const calcScroll = () => {
+    let div = document.createElement("div")
+    div.style.width = "50px"
+    div.style.height = "50px"
+    div.style.overflowY = "scroll"
+    div.style.visibility = "hidden"
+    document.body.append(div)
+    let scrollWidth = div.offsetWidth - div.clientWidth
+    div.remove()
+    return scrollWidth
   }
   bindModal(
     ".popup_engineer_btn",

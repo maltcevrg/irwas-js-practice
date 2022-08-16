@@ -4,12 +4,12 @@ export const images = () => {
     bigImg = document.createElement("img")
   imgPopup.classList.add("popup")
 
-  workSections.appendChild(imgPopup)
+  workSections.append(imgPopup)
   imgPopup.style.justifyContent = "center"
   imgPopup.style.alignItems = "center"
   imgPopup.style.display = "none"
 
-  imgPopup.appendChild(bigImg)
+  imgPopup.append(bigImg)
 
   workSections.addEventListener("click", (event: Event) => {
     event.preventDefault()

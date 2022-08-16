@@ -27,16 +27,16 @@ export const forms = (state?: any) => {
   }
 
   // Вывод сообщения о действии посредством создания нового div
-  forms.forEach((button) => {
-    button.addEventListener("submit", (e) => {
+  forms.forEach((form) => {
+    form.addEventListener("submit", (e) => {
       e.preventDefault()
       const status = document.createElement("div")
       status.classList.add("status")
-      button.appendChild(status)
+      form.append(status)
 
       //Сбор данных с формы
-      const formData = new FormData(button)
-      if (button.getAttribute("data-calc") === "end") {
+      const formData = new FormData(form)
+      if (form.getAttribute("data-calc") === "end") {
         for (const key in state) {
           formData.append(key, state[key])
           console.log(formData)
