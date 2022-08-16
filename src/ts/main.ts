@@ -4,6 +4,7 @@ import { tabs } from "./modules/tabs"
 import { forms } from "./modules/forms"
 import { changeModalState } from "./modules/changeModalState"
 import { timer } from "./modules/timer"
+import { images } from "./modules/images"
 window.addEventListener("DOMContentLoaded", () => {
   let modalState: Object = {}
   let deadline: string = "2022-09-18"
@@ -25,4 +26,5 @@ window.addEventListener("DOMContentLoaded", () => {
     "inline-block"
   )
   timer(".container1", deadline)
+  images()
 })
