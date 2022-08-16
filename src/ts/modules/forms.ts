@@ -1,7 +1,7 @@
 import { checkNumInputs } from "./checkNumInputs"
 
 export const forms = (state?: any) => {
-  const form = document.querySelectorAll<HTMLFormElement>("form"),
+  const forms = document.querySelectorAll<HTMLFormElement>("form"),
     input = document.querySelectorAll<HTMLInputElement>("input")
 
   // Валидация номера
@@ -15,7 +15,7 @@ export const forms = (state?: any) => {
   //Отправка данных
   const postData = async (url?: string, data?: string) => {
     document.querySelector(".status").textContent = message.loading
-    let result = await fetch(url, {
+    const result = await fetch(url, {
       method: "POST",
       body: data,
     })
@@ -23,23 +23,21 @@ export const forms = (state?: any) => {
   }
   //   Очистка инпутов
   const clear = () => {
-    input.forEach((item) => {
-      item.value = ""
-    })
+    input.forEach((input) => (input.value = ""))
   }
 
   // Вывод сообщения о действии посредством создания нового div
-  form.forEach((item) => {
-    item.addEventListener("submit", (e) => {
+  forms.forEach((button) => {
+    button.addEventListener("submit", (e) => {
       e.preventDefault()
-      let status = document.createElement("div")
+      const status = document.createElement("div")
       status.classList.add("status")
-      item.appendChild(status)
+      button.appendChild(status)
 
       //Сбор данных с формы
-      const formData = new FormData(item)
-      if (item.getAttribute("data-calc") === "end") {
-        for (let key in state) {
+      const formData = new FormData(button)
+      if (button.getAttribute("data-calc") === "end") {
+        for (const key in state) {
           formData.append(key, state[key])
           console.log(formData)
           console.log(typeof state)

@@ -6,21 +6,21 @@ export const tabs = (
   display: string = "block"
 ) => {
   const header = document.querySelector<HTMLElement>(headerSelector),
-    tab = document.querySelectorAll<HTMLElement>(tabSelector),
+    tabs = document.querySelectorAll<HTMLElement>(tabSelector),
     content = document.querySelectorAll<HTMLElement>(contentSelector)
 
   const hideContent = () => {
-    content.forEach((item) => {
-      item.style.display = "none"
+    content.forEach((contentItem) => {
+      contentItem.style.display = "none"
     })
-    tab.forEach((item) => {
-      item.classList.remove(activeClass)
+    tabs.forEach((contentItem) => {
+      contentItem.classList.remove(activeClass)
     })
   }
 
   const showContent = (i: number = 0) => {
     content[i].style.display = display
-    tab[i].classList.add(activeClass)
+    tabs[i].classList.add(activeClass)
   }
   hideContent()
   showContent()
@@ -32,7 +32,7 @@ export const tabs = (
       (target.classList.contains(tabSelector.replace(/\./, "")) ||
         target.parentElement.classList.contains(tabSelector.replace(/\./, "")))
     ) {
-      tab.forEach((item, i: number) => {
+      tabs.forEach((item, i: number) => {
         if (target == item || target.parentNode == item) {
           hideContent()
           showContent(i)

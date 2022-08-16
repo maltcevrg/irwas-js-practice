@@ -14014,6 +14014,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _modules_tabs__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./modules/tabs */ "./src/ts/modules/tabs.ts");
 /* harmony import */ var _modules_forms__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./modules/forms */ "./src/ts/modules/forms.ts");
 /* harmony import */ var _modules_changeModalState__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./modules/changeModalState */ "./src/ts/modules/changeModalState.ts");
+/* harmony import */ var _modules_timer__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./modules/timer */ "./src/ts/modules/timer.ts");
+
 
 
 
@@ -14021,12 +14023,14 @@ __webpack_require__.r(__webpack_exports__);
 
 window.addEventListener("DOMContentLoaded", () => {
     let modalState = {};
+    let deadline = "2022-09-18";
     Object(_modules_changeModalState__WEBPACK_IMPORTED_MODULE_4__["changeModalState"])(modalState);
     Object(_modules_modals__WEBPACK_IMPORTED_MODULE_1__["modals"])();
     Object(_modules_tabs__WEBPACK_IMPORTED_MODULE_2__["tabs"])(".glazing_slider", ".glazing_block", ".glazing_content", "active");
     Object(_modules_tabs__WEBPACK_IMPORTED_MODULE_2__["tabs"])(".decoration_slider", ".no_click", ".decoration_content > div > div", "after_click");
     Object(_modules_forms__WEBPACK_IMPORTED_MODULE_3__["forms"])(modalState);
     Object(_modules_tabs__WEBPACK_IMPORTED_MODULE_2__["tabs"])(".balcon_icons", ".balcon_icons_img", ".big_img > img", "do_image_more", "inline-block");
+    Object(_modules_timer__WEBPACK_IMPORTED_MODULE_5__["timer"])(".container1", deadline);
 });
 
 
@@ -14049,14 +14053,14 @@ const changeModalState = (state) => {
     Object(_checkNumInputs__WEBPACK_IMPORTED_MODULE_0__["checkNumInputs"])("#width");
     Object(_checkNumInputs__WEBPACK_IMPORTED_MODULE_0__["checkNumInputs"])("#height");
     const bindActionToElements = (event, element, prop) => {
-        element.forEach((item, i) => {
-            item.addEventListener(event, () => {
-                switch (item.nodeName) {
+        element.forEach((element, i) => {
+            element.addEventListener(event, () => {
+                switch (element.nodeName) {
                     case "SPAN":
                         state[prop] = i;
                         break;
                     case "INPUT":
-                        if (item.getAttribute("type") === "checkbox") {
+                        if (element.getAttribute("type") === "checkbox") {
                             i === 0 ? (state[prop] = "Cold") : (state[prop] = "Hot");
                             element.forEach((box, j) => {
                                 box.checked = false;
@@ -14067,11 +14071,11 @@ const changeModalState = (state) => {
                             });
                         }
                         else {
-                            state[prop] = item.value;
+                            state[prop] = element.value;
                         }
                         break;
                     case "SELECT":
-                        state[prop] = item.value;
+                        state[prop] = element.value;
                         break;
                 }
                 console.log(state);
@@ -14100,10 +14104,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "checkNumInputs", function() { return checkNumInputs; });
 const checkNumInputs = (selector) => {
     const numInputs = document.querySelectorAll(selector);
-    numInputs.forEach((item) => {
-        item.addEventListener("input", () => {
-            item.value = item.value.replace(/\D/, "");
-            console.log(item.value);
+    numInputs.forEach((input) => {
+        input.addEventListener("input", () => {
+            input.value = input.value.replace(/\D/, "");
+            console.log(input.value);
         });
     });
 };
@@ -14124,7 +14128,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _checkNumInputs__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./checkNumInputs */ "./src/ts/modules/checkNumInputs.ts");
 
 const forms = (state) => {
-    const form = document.querySelectorAll("form"), input = document.querySelectorAll("input");
+    const forms = document.querySelectorAll("form"), input = document.querySelectorAll("input");
     // Валидация номера
     Object(_checkNumInputs__WEBPACK_IMPORTED_MODULE_0__["checkNumInputs"])('input[name="user_phone"]');
     // Сообщения о действиях в форме
@@ -14136,7 +14140,7 @@ const forms = (state) => {
     //Отправка данных
     const postData = async (url, data) => {
         document.querySelector(".status").textContent = message.loading;
-        let result = await fetch(url, {
+        const result = await fetch(url, {
             method: "POST",
             body: data,
         });
@@ -14144,21 +14148,19 @@ const forms = (state) => {
     };
     //   Очистка инпутов
     const clear = () => {
-        input.forEach((item) => {
-            item.value = "";
-        });
+        input.forEach((input) => (input.value = ""));
     };
     // Вывод сообщения о действии посредством создания нового div
-    form.forEach((item) => {
-        item.addEventListener("submit", (e) => {
+    forms.forEach((button) => {
+        button.addEventListener("submit", (e) => {
             e.preventDefault();
-            let status = document.createElement("div");
+            const status = document.createElement("div");
             status.classList.add("status");
-            item.appendChild(status);
+            button.appendChild(status);
             //Сбор данных с формы
-            const formData = new FormData(item);
-            if (item.getAttribute("data-calc") === "end") {
-                for (let key in state) {
+            const formData = new FormData(button);
+            if (button.getAttribute("data-calc") === "end") {
+                for (const key in state) {
                     formData.append(key, state[key]);
                     console.log(formData);
                     console.log(typeof state);
@@ -14200,8 +14202,8 @@ __webpack_require__.r(__webpack_exports__);
 const modals = () => {
     const bindModal = (triggerSelector, modalSelector, closeSelector, closeClickOverlay = true) => {
         const triggers = document.querySelectorAll(triggerSelector), modal = document.querySelector(modalSelector), close = document.querySelector(closeSelector), windows = document.querySelectorAll("[data-popup]");
-        triggers.forEach((item) => {
-            item.addEventListener("click", (e) => {
+        triggers.forEach((trigger) => {
+            trigger.addEventListener("click", (e) => {
                 if (e.target) {
                     e.preventDefault;
                 }
@@ -14210,8 +14212,8 @@ const modals = () => {
             });
         });
         const closeModal = () => {
-            windows.forEach((item) => {
-                item.style.display = "none";
+            windows.forEach((modal) => {
+                modal.style.display = "none";
                 document.body.style.overflow = "";
             });
             console.log("all popups close");
@@ -14259,18 +14261,18 @@ const modals = () => {
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "tabs", function() { return tabs; });
 const tabs = (headerSelector, tabSelector, contentSelector, activeClass, display = "block") => {
-    const header = document.querySelector(headerSelector), tab = document.querySelectorAll(tabSelector), content = document.querySelectorAll(contentSelector);
+    const header = document.querySelector(headerSelector), tabs = document.querySelectorAll(tabSelector), content = document.querySelectorAll(contentSelector);
     const hideContent = () => {
-        content.forEach((item) => {
-            item.style.display = "none";
+        content.forEach((contentItem) => {
+            contentItem.style.display = "none";
         });
-        tab.forEach((item) => {
-            item.classList.remove(activeClass);
+        tabs.forEach((contentItem) => {
+            contentItem.classList.remove(activeClass);
         });
     };
     const showContent = (i = 0) => {
         content[i].style.display = display;
-        tab[i].classList.add(activeClass);
+        tabs[i].classList.add(activeClass);
     };
     hideContent();
     showContent();
@@ -14279,7 +14281,7 @@ const tabs = (headerSelector, tabSelector, contentSelector, activeClass, display
         if (target &&
             (target.classList.contains(tabSelector.replace(/\./, "")) ||
                 target.parentElement.classList.contains(tabSelector.replace(/\./, "")))) {
-            tab.forEach((item, i) => {
+            tabs.forEach((item, i) => {
                 if (target == item || target.parentNode == item) {
                     hideContent();
                     showContent(i);
@@ -14289,6 +14291,59 @@ const tabs = (headerSelector, tabSelector, contentSelector, activeClass, display
     });
 };
 /* harmony default export */ __webpack_exports__["default"] = (tabs);
+
+
+/***/ }),
+
+/***/ "./src/ts/modules/timer.ts":
+/*!*********************************!*\
+  !*** ./src/ts/modules/timer.ts ***!
+  \*********************************/
+/*! exports provided: timer */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "timer", function() { return timer; });
+const timer = (id, deadline) => {
+    const timeRemaining = (endtime) => {
+        const t = Date.parse(endtime) - Date.parse(String(new Date())), sec = Math.floor((t / 1000) % 60), min = Math.floor((t / 1000 / 60) % 60), hours = Math.floor((t / (1000 * 60 * 60)) % 24), days = Math.floor(t / (1000 * 60 * 60 * 24));
+        return {
+            total: t,
+            days: days,
+            sec: sec,
+            min: min,
+            hours: hours,
+        };
+    };
+    const setClock = (selector, endtime) => {
+        const timer = document.querySelector(selector), days = document.querySelector("#days"), sec = document.querySelector("#seconds"), min = document.querySelector("#minutes"), hours = document.querySelector("#hours");
+        const updateClock = () => {
+            const t = timeRemaining(endtime);
+            days.textContent = String(addZero(t.days));
+            sec.textContent = String(addZero(t.sec));
+            min.textContent = String(addZero(t.min));
+            hours.textContent = String(addZero(t.hours));
+            if (t.total <= 0) {
+                days.textContent = "00";
+                sec.textContent = "00";
+                min.textContent = "00";
+                hours.textContent = "00";
+                clearInterval(timeInterval);
+            }
+        };
+        const timeInterval = setInterval(updateClock, 1000);
+        const addZero = (number) => {
+            if (number <= 9) {
+                return "0" + number;
+            }
+            else {
+                return number;
+            }
+        };
+    };
+    setClock(id, deadline);
+};
 
 
 /***/ }),

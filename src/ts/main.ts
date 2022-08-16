@@ -3,8 +3,10 @@ import { modals } from "./modules/modals"
 import { tabs } from "./modules/tabs"
 import { forms } from "./modules/forms"
 import { changeModalState } from "./modules/changeModalState"
+import { timer } from "./modules/timer"
 window.addEventListener("DOMContentLoaded", () => {
   let modalState: Object = {}
+  let deadline: string = "2022-09-18"
   changeModalState(modalState)
   modals()
   tabs(".glazing_slider", ".glazing_block", ".glazing_content", "active")
@@ -22,4 +24,5 @@ window.addEventListener("DOMContentLoaded", () => {
     "do_image_more",
     "inline-block"
   )
+  timer(".container1", deadline)
 })
