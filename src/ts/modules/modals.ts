@@ -10,12 +10,13 @@ export const modals = () => {
       close = document.querySelector<HTMLElement>(closeSelector),
       windows = document.querySelectorAll<HTMLElement>("[data-popup]"),
       scroll = calcScroll()
-
+      
     triggers.forEach((trigger) => {
       trigger.addEventListener("click", (e: Event) => {
         if (e.target) {
           e.preventDefault
         }
+        
         modal.style.display = "block"
         document.body.style.overflow = "hidden"
         document.body.style.marginRight = String(scroll + "px")
@@ -30,14 +31,17 @@ export const modals = () => {
       })
       console.log("all popups close")
     }
+    
     close.addEventListener("click", () => {
       closeModal()
     })
+    
     modal.addEventListener("click", (e: Event) => {
       if (e.target === modal && closeClickOverlay) {
         closeModal()
       }
     })
+    
     document.addEventListener("keydown", (e) => {
       const key = e.key
       if (key === "Escape") {
