@@ -2,16 +2,18 @@ import { checkNumInputs } from "./checkNumInputs"
 
 export const forms = (state?: any) => {
   const forms = document.querySelectorAll<HTMLFormElement>("form"),
-    input = document.querySelectorAll<HTMLInputElement>("input")
+    inputs = document.querySelectorAll<HTMLInputElement>("input")
 
   // Валидация номера
   checkNumInputs('input[name="user_phone"]')
+
   // Сообщения о действиях в форме
   const message = {
     loading: "Грузится",
     success: "Спс, отправил",
     fail: "Всё сломалось",
   }
+
   //Отправка данных
   const postData = async (url?: string, data?: string) => {
     document.querySelector(".status").textContent = message.loading
@@ -21,9 +23,10 @@ export const forms = (state?: any) => {
     })
     return await result.text()
   }
+
   //   Очистка инпутов
   const clear = () => {
-    input.forEach((input) => (input.value = ""))
+    inputs.forEach((inputs) => (inputs.value = ""))
   }
 
   // Вывод сообщения о действии посредством создания нового div

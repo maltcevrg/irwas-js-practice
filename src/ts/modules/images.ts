@@ -1,14 +1,12 @@
 export const images = () => {
   const imgPopup = document.createElement("div"),
-    workSections = document.querySelector(".works"),
-    bigImg = document.createElement("img")
+  workSections = document.querySelector(".works"),
+  bigImg = document.createElement("img")
   imgPopup.classList.add("popup")
-
   workSections.append(imgPopup)
   imgPopup.style.justifyContent = "center"
   imgPopup.style.alignItems = "center"
   imgPopup.style.display = "none"
-
   imgPopup.append(bigImg)
 
   workSections.addEventListener("click", (event: Event) => {

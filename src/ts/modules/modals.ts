@@ -10,6 +10,7 @@ export const modals = () => {
       close = document.querySelector<HTMLElement>(closeSelector),
       windows = document.querySelectorAll<HTMLElement>("[data-popup]"),
       scroll = calcScroll()
+
     triggers.forEach((trigger) => {
       trigger.addEventListener("click", (e: Event) => {
         if (e.target) {
@@ -38,12 +39,13 @@ export const modals = () => {
       }
     })
     document.addEventListener("keydown", (e) => {
-      let key = e.key
+      const key = e.key
       if (key === "Escape") {
         closeModal()
       }
     })
   }
+
   const showModalByTime = (selector: string, time: number) => {
     setTimeout(() => {
       document.querySelector<HTMLElement>(selector).style.display = "block"
@@ -52,22 +54,24 @@ export const modals = () => {
   }
 
   const calcScroll = () => {
-    let div = document.createElement("div")
+    const div = document.createElement("div")
     div.style.width = "50px"
     div.style.height = "50px"
     div.style.overflowY = "scroll"
     div.style.visibility = "hidden"
     document.body.append(div)
-    let scrollWidth = div.offsetWidth - div.clientWidth
+    const scrollWidth = div.offsetWidth - div.clientWidth
     div.remove()
     return scrollWidth
   }
+
   bindModal(
     ".popup_engineer_btn",
     ".popup_engineer",
     ".popup_engineer .popup_close",
     false
   )
+
   bindModal(".popup_calc_btn", ".popup_calc", ".popup_calc_close", false)
   bindModal(".phone_link", ".popup", ".popup .popup_close", true)
   bindModal(
@@ -76,6 +80,7 @@ export const modals = () => {
     ".popup_calc_profile_close",
     false
   )
+
   bindModal(
     ".popup_calc_profile_button",
     ".popup_calc_end",

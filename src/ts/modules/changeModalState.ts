@@ -1,19 +1,21 @@
 import { checkNumInputs } from "./checkNumInputs"
 export const changeModalState = (state: any) => {
   const windowForm =
-      document.querySelectorAll<HTMLElement>(".balcon_icons_img"),
-    windowWidth = document.querySelectorAll<HTMLElement>("#width"),
-    windowHeight = document.querySelectorAll<HTMLElement>("#height"),
-    windowProfile = document.querySelectorAll<HTMLElement>(".checkbox"),
-    windowType = document.querySelectorAll<HTMLElement>("#view_type")
+  document.querySelectorAll<HTMLElement>(".balcon_icons_img"),
+  windowWidth = document.querySelectorAll<HTMLElement>("#width"),
+  windowHeight = document.querySelectorAll<HTMLElement>("#height"),
+  windowProfile = document.querySelectorAll<HTMLElement>(".checkbox"),
+  windowType = document.querySelectorAll<HTMLElement>("#view_type")
+  
   checkNumInputs("#width")
   checkNumInputs("#height")
+  
   const bindActionToElements = (
     event: string,
-    element: NodeListOf<HTMLElement>,
+    elements: NodeListOf<HTMLElement>,
     prop: string
   ) => {
-    element.forEach((element: any, i: number) => {
+    elements.forEach((element: any, i: number) => {
       element.addEventListener(event, () => {
         switch (element.nodeName) {
           case "SPAN":
